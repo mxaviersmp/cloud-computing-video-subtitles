@@ -10,4 +10,4 @@ All 4 need `AWSLambdaExecute`.
 
 * `lambda_transcribe` needs `AmazonTranscribeFullAccess`
 * `lambda_translate` needs `TranslateFullAccess`
-* `lambda_finish` needs `AmazonDynamoDBFullAccess` and `AmazonS3ReadOnlyAccess`
+* `lambda_finish` needs `AmazonDynamoDBFullAccess`, `AmazonS3ReadOnlyAccess` and `AmazonSESFullAccess`
