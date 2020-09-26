@@ -4,12 +4,13 @@ import boto3
 
 VIDEOS_TABLE = os.environ.get('VIDEOS_TABLE')
 USERS_TABLE = os.environ.get('USERS_TABLE')
-
+SOURCE_EMAIL = os.environ.get('SOURCE_EMAIL')
 
 def lambda_handler(event, context):
 
     s3 = boto3.resource('s3')
     dynamo = boto3.client('dynamodb')
+    ses = boto3.client('ses')
 
     if event:
         file_obj = event['Records'][0]
@@ -55,9 +56,7 @@ def lambda_handler(event, context):
         username = updated_video['username']
         del updated_video['username']
 
-        print(username)
-
-        dynamo.update_item(
+        updated_user = dynamo.update_item(
             TableName=USERS_TABLE,
             Key={
                 "username": username
@@ -68,10 +67,38 @@ def lambda_handler(event, context):
             },
             ExpressionAttributeNames={
                 '#V': 'videos'
-            }
+            },
+            ReturnValues='ALL_NEW'
+        )['Attributes']
+
+        to_email = updated_user['email']['S']
+        video_name = updated_video['video_name']['S']
+        user_name = username['S']
+        message = 'Hi {}, the video {} has been translated!'.format(
+            user_name, video_name
         )
 
-        print(updated_video)
+        try:
+            ses = ses.send_email(
+                Source=SOURCE_EMAIL,
+                Destination={
+                    'ToAddresses': [
+                        to_email,
+                    ]
+                },
+                Message={
+                    'Subject': {
+                        'Data': 'Video Translated by cloud-computing-video-subtitles'
+                    },
+                    'Body': {
+                        'Text': {
+                            'Data': message
+                        }
+                    }
+                }
+            )
+        except ses.exceptions.MessageRejected:
+            print('User email is not verified')
 
     return {
         'statusCode': 200,
