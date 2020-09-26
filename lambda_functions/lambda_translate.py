@@ -2,6 +2,8 @@ import json
 import os
 import boto3
 
+TRANSLATE_BUCKET = os.environ.get('TRANSLATE_BUCKET')
+
 
 def create_uri(bucket_name, file_name=''):
     return 's3://{}/{}'.format(bucket_name, file_name)
@@ -50,7 +52,7 @@ def lambda_handler(event, context):
         file_name, _ = os.path.splitext(file_name)
 
         s3.Object(
-            'translated-4124-8523-4476', '{}.txt'.format(file_name)
+            TRANSLATE_BUCKET, '{}.txt'.format(file_name)
         ).put(Body=translated_text)
 
     return {

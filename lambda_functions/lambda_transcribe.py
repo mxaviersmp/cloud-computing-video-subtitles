@@ -2,6 +2,9 @@ import json
 import os
 import boto3
 
+
+TRANSCRIBE_BUCKET = os.environ.get('TRANSCRIBE_BUCKET')
+
 def create_uri(bucket_name, file_name):
     return 's3://{}/{}'.format(bucket_name, file_name)
 
@@ -27,7 +30,7 @@ def lambda_handler(event, context):
             Media={
                 'MediaFileUri': s3_uri
             },
-            OutputBucketName='transcribed-4124-8523-4476'
+            OutputBucketName=TRANSCRIBE_BUCKET
         )
 
     return {

@@ -2,6 +2,9 @@ import json
 import os
 import boto3
 
+VIDEOS_TABLE = os.environ.get('VIDEOS_TABLE')
+USERS_TABLE = os.environ.get('USERS_TABLE')
+
 
 def lambda_handler(event, context):
 
@@ -17,7 +20,7 @@ def lambda_handler(event, context):
         info = json.loads(file_content)
 
         video = dynamo.query(
-            TableName='videos_table',
+            TableName=VIDEOS_TABLE,
             Select='ALL_ATTRIBUTES',
             KeyConditionExpression='#id = :vid',
             ExpressionAttributeValues={
@@ -29,7 +32,7 @@ def lambda_handler(event, context):
         )['Items'][0]
 
         updated_video = dynamo.update_item(
-            TableName='videos_table',
+            TableName=VIDEOS_TABLE,
             Key={
                 "video_id": video['video_id']
             },
@@ -55,7 +58,7 @@ def lambda_handler(event, context):
         print(username)
 
         dynamo.update_item(
-            TableName='users_table',
+            TableName=USERS_TABLE,
             Key={
                 "username": username
             },
