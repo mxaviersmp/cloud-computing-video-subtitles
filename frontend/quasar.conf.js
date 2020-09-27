@@ -19,8 +19,7 @@ module.exports = function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
-      
-      'axios',
+      'axios'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -39,7 +38,7 @@ module.exports = function (/* ctx */) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons', // optional, you are not bound to it
+      'material-icons' // optional, you are not bound to it
     ],
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
@@ -64,13 +63,13 @@ module.exports = function (/* ctx */) {
 
       // https://quasar.dev/quasar-cli/handling-webpack
       extendWebpack (cfg) {
-cfg.module.rules.push({
+        cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /node_modules/
         })
-      },
+      }
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -116,9 +115,9 @@ cfg.module.rules.push({
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `frontend`,
-        short_name: `frontend`,
-        description: `cloud-computing-videos-subtitle`,
+        name: 'videoSubtitles',
+        short_name: 'videoSubtitles',
+        description: 'cloud-computing-videos-subtitle',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -183,7 +182,7 @@ cfg.module.rules.push({
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'frontend'
+        appId: 'videoSubtitles'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

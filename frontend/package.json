@@ -1,8 +1,8 @@
 {
-  "name": "frontend",
+  "name": "videosubtitles",
   "version": "0.0.1",
   "description": "cloud-computing-videos-subtitle",
-  "productName": "frontend",
+  "productName": "videoSubtitles",
   "author": "hernany <hernanytec777@gmail.com>",
   "private": true,
   "scripts": {
