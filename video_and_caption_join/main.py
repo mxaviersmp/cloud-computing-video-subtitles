@@ -1,13 +1,15 @@
 from flask import Flask, jsonify, request, Response
 import json
 import os
+import multiprocessing
 import boto3
 from VideoSubtitle import *
 
 s3_client = boto3.client('s3')
 
-API_FLASK_HOST = 'localhost' #os.environ.get('API_FLASK_HOST')
-API_FLASK_PORT = 4441 #os.environ.get('API_FLASK_PORT')
+API_FLASK_HOST = os.environ.get('API_FLASK_HOST')
+API_FLASK_PORT = os.environ.get('API_FLASK_PORT')
+LAMBDA_AUTH = os.environ.get('LAMBDA_AUTH')
 
 app = Flask( __name__ )
 
@@ -39,28 +41,47 @@ def storeVideo():
 
         data = request.get_json()
 
-        vs = VideoSubtitle()
+        if data['AUTH'] != AUTH:
+             return jsonify(""), 401
 
-        fileName = 'tom' #data['original_video'].split('.')[0].split('/')[-1]
+        fileName = data['original_video'].split('.')[0].split('/')[-1]
 
-        originalClipPath = './test/tom.mp4' #downloadFileFromBucket( data['original_video'], fileName )
-        subtitlesPtFilePath = './test/tom-pt.vtt' #downloadFileFromBucket( data['translation'], fileName )
-        subtitlesEnFilePath = './test/tom-en.vtt' #downloadFileFromBucket( data['transcription'], fileName )
-        outputFilePath = './test/test.mp4' #'./temp/captioned/{fileName}.mp4'.format( originalClipPath )
+        originalClipPath = downloadFileFromBucket( data['original_video'], fileName )
+        subtitlesPtFilePath = downloadFileFromBucket( data['translation'], fileName )
+        subtitlesEnFilePath = downloadFileFromBucket( data['transcription'], fileName )
+        outputFilePath = './temp/captioned/{fileName}.mp4'.format( originalClipPath )
 
-        job_info = vs.createAnnotatedVideo( originalClipPath, subtitlesPtFilePath, subtitlesEnFilePath, outputFilePath )
+        job = multiprocessing.Process(
+            target=start_job,
+            args=(
+                fileName, originalClipPath, subtitlesPtFilePath,
+                subtitlesEnFilePath, outputFilePath
+            )
+        )
+        job.start()
 
-        with open('./temp/info/{}.json'.format(fileName), 'w') as outfile:
-            json.dump(job_info, outfile)
-
-        #salveFileToBucket( data['captioned_video'], fileName, outputFilePath )
-        #salveFileToBucket( data['job_info'], fileName, './temp/jobInfo/{}.json'.format(fileName) )
-
-        return jsonify("Succesfully stored video"), 201
-
+        return jsonify("Succesfully started job"), 201
     else:
-
         return jsonify(""), 400
+
+
+def start_job(
+    fileName, data, originalClipPath,
+    subtitlesPtFilePath, subtitlesEnFilePath, outputFilePath
+):
+    vs = VideoSubtitle()
+
+    job_info = vs.createAnnotatedVideo(
+        fileName, originalClipPath, subtitlesPtFilePath,
+        subtitlesEnFilePath, outputFilePath
+    )
+
+    with open('./temp/info/{}.json'.format(fileName), 'w') as outfile:
+        json.dump(job_info, outfile)
+
+    salveFileToBucket( data['captioned_video'], fileName, outputFilePath )
+    salveFileToBucket( data['job_info'], fileName, './temp/jobInfo/{}.json'.format(fileName) )
+
 
 if __name__ == '__main__':
 

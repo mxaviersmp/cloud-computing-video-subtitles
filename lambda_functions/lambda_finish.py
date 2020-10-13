@@ -54,21 +54,12 @@ def lambda_handler(event, context):
         )['Attributes']
 
         username = updated_video['username']
-        del updated_video['username']
 
-        updated_user = dynamo.update_item(
+        updated_user = dynamo.get_item(
             TableName=USERS_TABLE,
             Key={
-                "username": username
-            },
-            UpdateExpression='SET #V = list_append(#V, :v)',
-            ExpressionAttributeValues={
-                ":v": {"L": [{"M": updated_video}]}
-            },
-            ExpressionAttributeNames={
-                '#V': 'videos'
-            },
-            ReturnValues='ALL_NEW'
+                "username": {'S': username}
+            }
         )['Attributes']
 
         to_email = updated_user['email']['S']
