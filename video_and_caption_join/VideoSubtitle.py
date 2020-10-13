@@ -4,7 +4,6 @@ from moviepy.video.tools.subtitles import SubtitlesClip
 class VideoSubtitle( object ):
 
     def __init__( self ):
-        
         self.duration = 0.0
         self.transcription_words = 0
         self.translation_words = 0
@@ -21,7 +20,6 @@ class VideoSubtitle( object ):
         mult = 2
 
         if( num_words_pt > 9 ):
-            
             aux_pt = txt_pt.split()
             aux_pt.insert( 8, '\n' )
 
@@ -33,7 +31,6 @@ class VideoSubtitle( object ):
         self.transcription_words += num_words_en
 
         if( num_words_en > 9 ):
-            
             aux_en = txt_en.split()
             aux_en.insert( 8, '\n' )
 
@@ -59,13 +56,16 @@ class VideoSubtitle( object ):
 
         return subs
 
-    def createAnnotatedVideo( self, originalClipPath, subtitlesPtFilePath, subtitlesEnFilePath, outputFilePath ):
+    def createAnnotatedVideo(
+        self, fileName, originalClipPath, subtitlesPtFilePath,
+        subtitlesEnFilePath, outputFilePath
+    ):
 
         self.transcription_words = 0
         self.translation_words = 0
 
         clip = VideoFileClip( originalClipPath )
-    
+
         subs_pt = self.__generateSubs( clip, subtitlesPtFilePath )
         subs_en = self.__generateSubs( clip, subtitlesEnFilePath )
 
@@ -74,4 +74,9 @@ class VideoSubtitle( object ):
         final_clip = concatenate_videoclips( annotated_clips )
         final_clip.write_videofile(outputFilePath)
 
-        return { 'duration' : clip.duration, 'transcription_words' : self.transcription_words ,'translation_words' : self.translation_words }
+        return {
+            'video_id': fileName,
+            'duration' : clip.duration,
+            'transcription_words' : self.transcription_words ,
+            'translation_words' : self.translation_words
+        }

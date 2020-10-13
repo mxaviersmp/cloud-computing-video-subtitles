@@ -42,20 +42,23 @@ def json_to_vtt(transcribe_json):
             end.append(item['end_time'])
             sentence.append(item['alternatives'][0]['content'])
         if item['type'] == 'punctuation':
-            sentence.append(item['alternatives'][0]['content'])
-            try:
-                sentences.append({
-                    'index': idx,
-                    'start_time': get_time_code(float(start[0])),
-                    'end_time': get_time_code(float(end[-1])),
-                    'sentence': ' '.join(sentence)
-                })
-            except IndexError as e:
-                print(e)
-            sentence = []
-            start = []
-            end = []
-            idx += 1
+            if item['alternatives'][0]['content'] in ['.', '?', '!']:
+                sentence.append(item['alternatives'][0]['content'])
+                try:
+                    sentences.append({
+                        'index': idx,
+                        'start_time': get_time_code(float(start[0])),
+                        'end_time': get_time_code(float(end[-1])),
+                        'sentence': ' '.join(sentence)
+                    })
+                except IndexError as e:
+                    print(e)
+                sentence = []
+                start = []
+                end = []
+                idx += 1
+            else:
+                sentence.append(item['alternatives'][0]['content'])
     transcript_timestamped = []
     for sent in sentences:
         transcript_timestamped.append(
