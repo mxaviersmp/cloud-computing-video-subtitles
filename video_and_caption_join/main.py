@@ -16,7 +16,7 @@ def downloadFileFromBucket( bucketUri, fileName ):
     bucketName =  bucketUri.split('/')[0]
     extension = bucketUri.split('.')[1]
 
-    fileName = "{}/{}.{}".format(bucketUri.split(1), fileName, extension)
+    fileName = "{}/{}.{}".format(bucketUri.split('/')[1], fileName, extension)
     filePath = './temp/{}'.format(fileName)
 
     s3_client.download_file( bucketName, fileName, filePath )
@@ -28,7 +28,7 @@ def salveFileToBucket( bucketUri, fileName, filePath ):
     bucketName =  bucketUri.split('/')[0]
     extension = bucketUri.split('.')[1]
 
-    fileName = "{}.{}".format(fileName, extension)
+    fileName = "{}/{}.{}".format(bucketUri.split('/')[1], fileName, extension)
 
     s3_client.upload_file( filePath, bucketName, fileName )
 
