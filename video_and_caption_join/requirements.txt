@@ -1,0 +1,8 @@
+#ImageMagick instalação -> https://www.tecmint.com/install-imagemagick-on-debian-ubuntu/  + executar sudo apt install libmagick++-dev
+# Verificar dpkg -l | grep magic
+
+moviepy
+flask
+flask-restful
+awscli
+boto3
