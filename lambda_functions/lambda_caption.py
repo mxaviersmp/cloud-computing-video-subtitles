@@ -21,11 +21,11 @@ def lambda_handler(event, context):
         file_name, _ = os.path.splitext(file_name)
         file_name = file_name.replace('-pt', '')
 
-        original_video = 'video-files-4124-8523-4476/original/{}.mp4'.format(file_name)
-        transcription = 'translated-4124-8523-4476/en/{}-en.vtt'.format(file_name)
-        translation = 'translated-4124-8523-4476/pt/{}-pt.vtt'.format(file_name)
-        captioned_video = 'video-files-4124-8523-4476/captioned/{}.mp4'.format(file_name)
-        job_info = 'video-files-4124-8523-4476/info/{}.json'.format(file_name)
+        original_video = '{}/original/{}.mp4'.format(VIDEO_BUCKET, file_name)
+        transcription = '{}/en/{}-en.vtt'.format(TRANSLATE_BUCKET, file_name)
+        translation = '{}/pt/{}-pt.vtt'.format(TRANSLATE_BUCKET, file_name)
+        captioned_video = '{}/captioned/{}.mp4'.format(VIDEO_BUCKET, file_name)
+        job_info = '{}/info/{}.json'.format(VIDEO_BUCKET, file_name)
 
         data = parse.urlencode({
             'original_video': original_video,
