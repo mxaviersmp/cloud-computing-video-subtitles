@@ -10,7 +10,7 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
         <q-toolbar-title>Video Subtitles</q-toolbar-title>
-        <q-btn flat dense round icon="logout" />
+        <q-btn flat dense round icon="logout" @click="signOut"/>
       </q-toolbar>
     </q-header>
 
@@ -51,17 +51,13 @@ const menuList = [
     label: 'Início'
   },
   {
-    icon: 'account_box',
-    label: 'Perfil',
-    separator: true
-  },
-  {
     icon: 'info',
     label: 'Sobre'
   }
 ]
 
 import FileUploader from '../components/FileUploader'
+import authService from '../service/authService'
 export default {
   components: { FileUploader },
   data () {
@@ -74,6 +70,17 @@ export default {
   methods: {
     setActive (idx) {
       this.activeIndex = idx
+    },
+    async signOut () {
+      try {
+        await authService.signOut()
+      } catch (err) {
+        console.log(err)
+        this.$q.notify({
+          message: 'Erro ao sair da aplicação',
+          color: 'red'
+        })
+      }
     }
   }
 }
