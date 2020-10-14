@@ -13,7 +13,7 @@ def upload_file(file_path, bucket):
     s3_client = boto3.client('s3')
     try:
         s3_client.upload_file(file_path, bucket, bucket_filename)
-        return bucket_filename
+        return file_id
     except ClientError as e:
         logging.error(e)
         return False
