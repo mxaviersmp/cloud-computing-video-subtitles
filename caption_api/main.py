@@ -60,7 +60,7 @@ def storeVideo():
         job = multiprocessing.Process(
             target=start_job,
             args=(
-                fileName, data, originalClipPath, 
+                fileName, data, originalClipPath,
                 subtitlesPtFilePath, subtitlesEnFilePath, outputFilePath
             )
         )

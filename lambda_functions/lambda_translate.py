@@ -110,13 +110,13 @@ def lambda_handler(event, context):
         file_name, _ = os.path.splitext(file_name)
 
         s3.Object(
-            TRANSLATE_BUCKET, 'en/{}-en.vtt'.format(file_name)
+            TRANSLATE_BUCKET, 'en/{}.vtt'.format(file_name)
         ).put(Body=transcript_text)
         s3.Object(
-            TRANSLATE_BUCKET, 'pt/{}-pt.vtt'.format(file_name)
+            TRANSLATE_BUCKET, 'pt/{}.vtt'.format(file_name)
         ).put(Body=translated_text)
 
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello from Translate Lambda!')
+        'body': json.dumps('Translate Lambda finished!')
     }
