@@ -19,6 +19,8 @@ if not os.path.exists('temp'):
     os.mkdir('./temp/info')
     os.mkdir('./temp/original')
     os.mkdir('./temp/captioned')
+    os.mkdir('./temp/pt')
+    os.mkdir('./temp/en')
 
 def downloadFileFromBucket( bucketUri, fileName ):
 
@@ -53,13 +55,13 @@ def storeVideo():
         originalClipPath = downloadFileFromBucket( data['original_video'], fileName )
         subtitlesPtFilePath = downloadFileFromBucket( data['translation'], fileName )
         subtitlesEnFilePath = downloadFileFromBucket( data['transcription'], fileName )
-        outputFilePath = './temp/captioned/{fileName}.mp4'.format( originalClipPath )
+        outputFilePath = './temp/captioned/{}.mp4'.format( fileName )
 
         job = multiprocessing.Process(
             target=start_job,
             args=(
-                fileName, originalClipPath, subtitlesPtFilePath,
-                subtitlesEnFilePath, outputFilePath
+                fileName, data, originalClipPath, 
+                subtitlesPtFilePath, subtitlesEnFilePath, outputFilePath
             )
         )
         job.start()
