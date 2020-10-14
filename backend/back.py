@@ -16,6 +16,25 @@ FLASK_PORT = os.environ.get('FLASK_PORT')
 
 @app.route('/send', methods=['POST'])
 def send_videos():
+    """Send a vídeo from a user to the S3
+
+    Methods
+    -------
+    POST
+
+    Request
+    -------
+    {
+        "user_id": <id of the user>,
+        "file_path": <path to the file>
+    }
+
+    Response
+    --------
+    {
+        "status": 200
+    }
+    """
     user_id = request.json.get('user_id')
     file_path = request.json.get('file_path')
     _, video_name = os.path.split(file_path)
@@ -32,11 +51,37 @@ def send_videos():
         'video_id', {'S': video_info['video_id']['S']}
     )
 
-    return {'status': 200}
+    return json.dumps({'status': 200})
 
 
 @app.route('/list', methods=['GET'])
 def list_videos():
+    """Returns all videos from a user
+
+    Methods
+    -------
+    GET
+
+    Request
+    -------
+    {
+        "user_id": <id of the user>
+    }
+
+    Response
+    -------
+    [
+        {
+            "video_id": str,
+            "video_name": str,
+            "finished": bool,
+            "duration": float,
+            "transcription_words": float,
+            "translation_words": float,
+        },
+        ...
+    ]
+    """
     user_id = request.json.get('user_id')
     items = get_items(VIDEOS_TABLE, 'user_id', user_id)
     videos = []
@@ -51,6 +96,30 @@ def list_videos():
 
 @app.route('/statistics', methods=['GET'])
 def get_statistics():
+    """Returns all videos
+
+    Methods
+    -------
+    GET
+
+    Request
+    -------
+    { }
+
+    Response
+    -------
+    [
+        {
+            "video_id": str,
+            "video_name": str,
+            "finished": bool,
+            "duration": float,
+            "transcription_words": float,
+            "translation_words": float,
+        },
+        ...
+    ]
+    """
     items = retrieve_all_items(VIDEOS_TABLE)
     videos = []
     if items:
