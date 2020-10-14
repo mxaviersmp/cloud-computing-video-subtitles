@@ -9,7 +9,6 @@ s3_client = boto3.client('s3')
 
 API_FLASK_HOST = os.environ.get('API_FLASK_HOST')
 API_FLASK_PORT = os.environ.get('API_FLASK_PORT')
-LAMBDA_AUTH = os.environ.get('LAMBDA_AUTH')
 
 app = Flask( __name__ )
 
@@ -40,9 +39,6 @@ def storeVideo():
     if request.method == 'POST':
 
         data = request.get_json()
-
-        if data['AUTH'] != AUTH:
-             return jsonify(""), 401
 
         fileName = data['original_video'].split('.')[0].split('/')[-1]
 
@@ -84,5 +80,4 @@ def start_job(
 
 
 if __name__ == '__main__':
-
     app.run( host=API_FLASK_HOST, port=API_FLASK_PORT )
