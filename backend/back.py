@@ -19,7 +19,7 @@ def send_videos():
     video_id = upload_file(file_path, VIDEOS_BUCKET)
     video_info = {
         "video_id": {"S": video_id},
-        "username": {"S": user_id},
+        "user_id": {"S": user_id},
         "video_name": {"S": video_name},
         "finished": {"BOOL": False}
     }
@@ -34,7 +34,7 @@ def send_videos():
 @app.route('/list', methods=['POST'])
 def list_videos():
     user_id = request.json.get('user_id')
-    items = get_items(VIDEOS_TABLE, 'username', user_id)
+    items = get_items(VIDEOS_TABLE, 'user_id', user_id)
     videos = []
     for d in items:
         info = dict()
