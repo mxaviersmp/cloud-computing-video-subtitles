@@ -14,4 +14,11 @@ All 4 need `AWSLambdaExecute`.
 * `lambda_finish` needs `AmazonDynamoDBFullAccess`, `AmazonS3ReadOnlyAccess` and `AmazonSESFullAccess`
 
 For each lamda set the necessary `Environment Variables`.
-For the `lambda_caption`, set the `VPC` so that it can access the `CaptionAPI`.
+
+## LambdaCaption
+
+Set the `VPC` so that it can access the `CaptionAPI`.
+
+## LambdaTranslate
+
+Since this lambda waits for the translate service to finish, change de increase the timeout and memory on `Basic Settings`.
