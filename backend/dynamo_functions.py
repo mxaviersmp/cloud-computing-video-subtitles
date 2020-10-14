@@ -4,12 +4,12 @@ from boto3.dynamodb.conditions import Key
 from botocore.exceptions import ClientError
 
 
-def retrieve_all_items(table_name, key, value):
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table(table_name)
+def retrieve_all_items(table_name):
+    dynamo_client = boto3.client('dynamodb')
     try:
-        response = table.query(
-            KeyConditionExpression=Key(key).eq(value)
+        response = dynamo_client.scan(
+            TableName=table_name,
+            Select='ALL_ATTRIBUTES'
         )
         return response['Items']
     except ClientError as e:
