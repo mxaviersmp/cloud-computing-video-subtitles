@@ -1,13 +1,18 @@
 import json
 import os
-import boto3
-from urllib import parse, request
+from urllib import request
 
 VIDEO_BUCKET = os.environ.get('VIDEO_BUCKET')
 TRANSLATE_BUCKET = os.environ.get('TRANSLATE_BUCKET')
-
+CAPTION_API = os.environ.get('CAPTION_API')
 
 def lambda_handler(event, context):
+
+    response = {
+        'statusCode': 200,
+        'body': json.dumps('Hello from Caption Lambda!')
+    }
+
     if event:
         file_obj = event['Records'][0]
         bucket_name = str(file_obj['s3']['bucket']['name'])
@@ -23,19 +28,20 @@ def lambda_handler(event, context):
         captioned_video = '{}/captioned/{}.mp4'.format(VIDEO_BUCKET, video_id)
         job_info = '{}/info/{}.json'.format(VIDEO_BUCKET, video_id)
 
-        data = parse.urlencode({
+        data = {
             'original_video': original_video,
             'transcription': transcription,
             'translation': translation,
             'captioned_video': captioned_video,
             'job_info': job_info
-        })
-        data = data.encode('ascii')
+        }
+        url = CAPTION_API
 
-        url = "http://httpbin.org/post"
-        response = request.urlopen(url, data)
+        req = request.Request(url)
+        req.add_header('Content-Type', 'application/json; charset=utf-8')
+        data = json.dumps(data)
+        data = data.encode('utf-8')
+        req.add_header('Content-Length', len(data))
+        response = request.urlopen(req, data)
 
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Hello from Caption Lambda!')
-    }
+    return response

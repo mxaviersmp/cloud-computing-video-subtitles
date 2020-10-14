@@ -1,3 +1,4 @@
+from backend.back import VIDEOS_BUCKET
 import json
 import os
 import boto3
@@ -5,6 +6,11 @@ import boto3
 VIDEOS_TABLE = os.environ.get('VIDEOS_TABLE')
 USERS_TABLE = os.environ.get('USERS_TABLE')
 SOURCE_EMAIL = os.environ.get('SOURCE_EMAIL')
+
+
+def create_object_url(bucket_name, file_name):
+    return 'https://{}.s3.amazonaws.com/{}'.format(bucket_name, file_name)
+
 
 def lambda_handler(event, context):
 
@@ -20,12 +26,16 @@ def lambda_handler(event, context):
         file_content = content_object.get()['Body'].read().decode('utf-8')
         info = json.loads(file_content)
 
+        video_id = info['video_id']
+        video_key = '/captioned/{}.mp4'.format(video_id)
+        video_uri = create_object_url(VIDEOS_BUCKET, video_key)
+
         video = dynamo.query(
             TableName=VIDEOS_TABLE,
             Select='ALL_ATTRIBUTES',
             KeyConditionExpression='#id = :vid',
             ExpressionAttributeValues={
-                ":vid": {"S": info['id']}
+                ":vid": {"S": video_id}
             },
             ExpressionAttributeNames={
                 '#id': 'video_id'
@@ -35,16 +45,18 @@ def lambda_handler(event, context):
         updated_video = dynamo.update_item(
             TableName=VIDEOS_TABLE,
             Key={
-                "video_id": video['video_id']
+                "video_id": {"S": video_id}
             },
-            UpdateExpression='SET #D = :d, #T1 = :t1, #T2 = :t2, #F = :f',
+            UpdateExpression='SET #U = :u, #D = :d, #T1 = :t1, #T2 = :t2, #F = :f',
             ExpressionAttributeValues={
+                ":u": {"S": str(video_uri)},
                 ":d": {"N": str(info['duration'])},
                 ":t1": {"N": str(info['transcription_words'])},
                 ":t2": {"N": str(info['translation_words'])},
                 ':f': {"BOOL": True}
             },
             ExpressionAttributeNames={
+                '#U': 'video_uri',
                 '#D': 'duration',
                 '#T1': 'transcription_words',
                 '#T2': 'translation_words',
@@ -53,20 +65,20 @@ def lambda_handler(event, context):
             ReturnValues='ALL_NEW'
         )['Attributes']
 
-        username = updated_video['username']
+        user_id = updated_video['user_id']
 
-        updated_user = dynamo.get_item(
+        user = dynamo.get_item(
             TableName=USERS_TABLE,
             Key={
-                "username": {'S': username}
+                "user_id": {'S': user_id}
             }
-        )['Attributes']
+        )['Item']
 
-        to_email = updated_user['email']['S']
         video_name = updated_video['video_name']['S']
-        user_name = username['S']
+        to_email = user['email']['S']
+        username = user['username']['S']
         message = 'Hi {}, the video {} has been translated!'.format(
-            user_name, video_name
+            username, video_name
         )
 
         try:
@@ -89,9 +101,11 @@ def lambda_handler(event, context):
                 }
             )
         except ses.exceptions.MessageRejected:
-            print('User email is not verified')
+            ses.verify_email_identity(
+                EmailAddress=to_email
+            )
 
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello from Finish Jod Lambda!')
+        'body': json.dumps('FinishJob Lambda Successful!')
     }
