@@ -10,4 +10,8 @@ All 4 need `AWSLambdaExecute`.
 
 * `lambda_transcribe` needs `AmazonTranscribeFullAccess`
 * `lambda_translate` needs `TranslateFullAccess`
+* `lambda_caption` needs `AmazonEC2FullAccess`
 * `lambda_finish` needs `AmazonDynamoDBFullAccess`, `AmazonS3ReadOnlyAccess` and `AmazonSESFullAccess`
+
+For each lamda set the necessary `Environment Variables`.
+For the `lambda_caption`, set the `VPC` so that it can access the `CaptionAPI`.
