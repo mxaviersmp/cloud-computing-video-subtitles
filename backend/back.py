@@ -132,4 +132,4 @@ def get_statistics():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host=FLASK_HOST, port=FLASK_PORT)
+    app.run(host=FLASK_HOST, port=FLASK_PORT)

@@ -1,5 +1,5 @@
 yum makecache fast
-yum install ImageMagick ImageMagick-devel
+yum install ImageMagick ImageMagick-devel -y
 cat << EOF > /etc/ImageMagick/policy.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE policymap [

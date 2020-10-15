@@ -35,7 +35,7 @@ def lambda_handler(event, context):
             'captioned_video': captioned_video,
             'job_info': job_info
         }
-        url = CAPTION_API
+        url = 'http://{}:8080'.format(CAPTION_API)
 
         req = request.Request(url)
         req.add_header('Content-Type', 'application/json; charset=utf-8')
