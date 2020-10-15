@@ -6,6 +6,10 @@ It is necessary to configure some `Security Groups` so that the `LambdaCaption` 
 
 Create a new `key-pair` for the project.
 
+## IAM
+
+* caption-api-role: Create an `IAM Role` for `EC2` with `AmazonS3FullAccess`
+
 ## VPC
 
 Create a new `VPC` for the project.
