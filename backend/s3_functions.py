@@ -6,7 +6,24 @@ from botocore.exceptions import ClientError
 
 
 def upload_file(user_id, file_path, bucket, prefix=None):
+    """Uploads a file to s3, generating a unique id for the file
 
+    Parameters
+    ----------
+    user_id : str
+        id of the user uploading the file
+    file_path : str
+        path to the file
+    bucket : str
+        name of the bucket
+    prefix : str, optional
+        file prefix (sub folders in the bucket), by default None
+
+    Returns
+    -------
+    str
+        generated id of the file
+    """
     if prefix is None:
         prefix = ''
     file_id = hashlib.sha1(

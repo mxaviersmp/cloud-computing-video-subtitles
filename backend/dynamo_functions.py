@@ -5,6 +5,18 @@ from botocore.exceptions import ClientError
 
 
 def retrieve_all_items(table_name):
+    """Scans and retrieves all items from a DynamoDB table
+
+    Parameters
+    ----------
+    table_name : str
+        name of the table to scan
+
+    Returns
+    -------
+    dict
+        all items in the table
+    """
     dynamo_client = boto3.client('dynamodb')
     try:
         response = dynamo_client.scan(
@@ -18,6 +30,22 @@ def retrieve_all_items(table_name):
 
 
 def get_items(table_name, key, value):
+    """Retrieves all items from a DynamoDB table with key==value
+
+    Parameters
+    ----------
+    table_name : str
+        name of the table
+    key : str
+        item key to filter
+    value : str
+        value of the key
+
+    Returns
+    -------
+    dict
+        all items from the table that the atribute key==value
+    """
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(table_name)
     try:
@@ -31,6 +59,24 @@ def get_items(table_name, key, value):
 
 
 def save_item(table_name, item, key, value):
+    """Saves an item on a DynamoDB table
+
+    Parameters
+    ----------
+    table_name : str
+        name of the table
+    item : dict
+        item to save on the table
+    key : str
+        item primary key
+    value : str
+        item pk value
+
+    Returns
+    -------
+    dict
+        item inserted on the table
+    """
     dynamo_client = boto3.client('dynamodb')
     try:
         dynamo_client.put_item(
