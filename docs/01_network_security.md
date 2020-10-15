@@ -26,4 +26,8 @@ This `Security Group` is configured to allow access only from the `<lambda-capti
 * For `Inbound Rules`, choose:
   * Type: Custom TCP
   * Port range: 8080
-  * Destination: <lambda-caption-sg>
+  * Destination: `<lambda-caption-sg>`
+
+## SES
+
+On `Amazon SES`, verify the email that you will use to notify the users.

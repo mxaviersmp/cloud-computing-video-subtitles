@@ -2,7 +2,7 @@
 
 The project uses 3 buckets.
 
-# videos-bucket
+## videos-bucket
 
 * This bucket will store the uploaded and captioned videos.
 * Create the folders: `original`, `info` and `captioned`.
