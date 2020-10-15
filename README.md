@@ -1,4 +1,6 @@
-# cloud-computing-video-subtitles
+# Legendas Tubarão
+
+Project developed for the  Cloud Computing class
 
 ![project architecture](misc/architecture.svg)
 

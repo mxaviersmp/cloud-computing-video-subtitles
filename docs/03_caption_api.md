@@ -30,3 +30,6 @@ You can setup and `Auto Scaling` group to run tha `API`.
   * Don't register any targets.
 * Select `Group size` at your choosing. Leave `Minimum capacity` at least 1.
 * Choose `Target tracking scaling policy` and `Average CPU utilization`.
+* Create a `Load Balancer` of type `Network Load Balancer`
+* Setup the same Protocol, Port, Subnets as the `Target Group`.
+* Choose as target the created `Target Group`.
