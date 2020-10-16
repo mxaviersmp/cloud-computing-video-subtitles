@@ -10,14 +10,9 @@ Create a new `key-pair` for the project.
 
 * caption-api-role: Create an `IAM Role` for `EC2` with `AmazonS3FullAccess`
 
-## VPC
-
-Create a new `VPC` for the project.
-
 ## lambda-caption-sg
 
-* Choose the `project-vpc`.
-* **__Note:__** It is not necessary to configure `Inbound` or `Outbound` rules. If you wish, after creating the `<caption-api-sg>`, come back and select on `Outbound Rules`:
+* It is not necessary to configure `Inbound` or `Outbound` rules. If you wish, after creating the `<caption-api-sg>`, come back and select on `Outbound Rules`:
   * Type: Custom TCP
   * Port range: 8080
   * Destination: <caption-api-sg>
@@ -26,7 +21,6 @@ Create a new `VPC` for the project.
 
 This `Security Group` is configured to allow access only from the `<lambda-caption-sg>`
 
-* Choose the `project-vpc`.
 * For `Inbound Rules`, choose:
   * Type: Custom TCP
   * Port range: 8080

@@ -43,6 +43,12 @@ def salveFileToBucket( bucketUri, fileName, filePath ):
 
     s3_client.upload_file( filePath, bucketName, fileName )
 
+
+@app.route('/', methods=['GET'])
+def health():
+    return jsonify("Healthy!"), 200
+
+
 @app.route('/video', methods=['POST'])
 def storeVideo():
 

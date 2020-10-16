@@ -10,20 +10,20 @@ For each lambda set the necessary `Environment Variables`.
 ## LambdaTranscribe
 
 * This function starts the `Amazon Transcribe` job.
-* Create an execution role with the `AmazonTranscribeFullAccess` permission.
+* Create an execution role with the `AmazonTranscribeFullAccess` and `AmazonS3FullAccess` permissions.
 * Add a trigger for `S3`, on the `<videos-bucket>`, with prefix `original` and suffix `.mp4`.
 
 ## LambdaTranslate
 
 * This uses the `Amazon Transcribe` output and `Amazon Translate` to create the captions.
-* Create an execution role with the `TranslateFullAccess` permission.
+* Create an execution role with the `TranslateFullAccess` and `AmazonS3FullAccess` permissions.
 * Add a trigger for `S3`, on the `<transcribe-bucket>`, with suffix `.json`.
 * Since this lambda waits for the translate service to finish, increase the timeout and memory on `Basic Settings`.
 
 ## LambdaCaption
 
 * This function calls the `CaptionAPI`.
-* Create an execution role with the `AmazonEC2ReadOnlyAccess` permission.
+* Create an execution role with the `AmazonEC2FullAccess` permission.
 * Add the bucket to the same `VPC` as the `CaptionAPI`.
 * Choose the `<lambda-caption-sg>`
 * Add a trigger for `S3`, on the `<translate-bucket>`, with prefix `pt` and suffix `.vtt`.
