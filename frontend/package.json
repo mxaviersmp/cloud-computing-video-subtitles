@@ -1,8 +1,8 @@
 {
-  "name": "videosubtitles",
+  "name": "legendaszebarao",
   "version": "0.0.1",
   "description": "cloud-computing-videos-subtitle",
-  "productName": "videoSubtitles",
+  "productName": "legendas Zebarão",
   "author": "hernany <hernanytec777@gmail.com>",
   "private": true,
   "scripts": {

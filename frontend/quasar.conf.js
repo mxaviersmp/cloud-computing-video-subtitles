@@ -132,8 +132,8 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'videoSubtitles',
-        short_name: 'videoSubtitles',
+        name: 'legendasZebarao',
+        short_name: 'legendasZebarao',
         description: 'cloud-computing-videos-subtitle',
         display: 'standalone',
         orientation: 'portrait',
@@ -199,7 +199,7 @@ module.exports = function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'videoSubtitles'
+        appId: 'legendasZebarao'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
