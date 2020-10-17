@@ -5,15 +5,16 @@ from s3_functions import upload_file
 from dynamo_functions import save_item, get_items, retrieve_all_items
 import json
 
+from dotenv import load_dotenv
+load_dotenv()
+
 app = Flask(__name__)
 CORS(app)
 
-# VIDEOS_BUCKET = os.environ.get('VIDEOS_BUCKET')
-# VIDEOS_TABLE = os.environ.get('VIDEOS_TABLE')
+VIDEOS_BUCKET = os.environ.get('VIDEOS_BUCKET')
+VIDEOS_TABLE = os.environ.get('VIDEOS_TABLE')
 FLASK_HOST = os.environ.get('FLASK_HOST')
 FLASK_PORT = os.environ.get('FLASK_PORT')
-VIDEOS_BUCKET = 'videos-bucket-412485234476'
-VIDEOS_TABLE = 'videos-table'
 
 
 @app.route('/send', methods=['POST'])
