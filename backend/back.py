@@ -30,6 +30,7 @@ def send_videos():
     {
         "user_id": <id of the user>,
         "file_path": <path to the file>
+        "file": <the real video file>
     }
 
     Response
@@ -38,11 +39,13 @@ def send_videos():
         "status": 200
     }
     """
-    user_id = request.json.get('user_id')
-    file_path = request.json.get('file_path')
+    
+    user_id = request.form.get('user_id')
+    file_path = request.form.get('file_path')
+    file_video = request.files.get('file')
     _, video_name = os.path.split(file_path)
 
-    video_id = upload_file(user_id, file_path, VIDEOS_BUCKET, 'original')
+    video_id = upload_file(user_id, file_path, file_video, VIDEOS_BUCKET, 'original')
     video_info = {
         "video_id": {"S": video_id},
         "user_id": {"S": user_id},

@@ -5,7 +5,7 @@ import time
 from botocore.exceptions import ClientError
 
 
-def upload_file(user_id, file_path, bucket, prefix=None):
+def upload_file(user_id, file_path, file_video, bucket, prefix=None):
     """Uploads a file to s3, generating a unique id for the file
 
     Parameters
@@ -33,7 +33,7 @@ def upload_file(user_id, file_path, bucket, prefix=None):
 
     s3_client = boto3.client('s3')
     try:
-        s3_client.upload_file(file_path, bucket, bucket_filename)
+        s3_client.upload_fileobj(file_video, bucket, bucket_filename)
         return file_id
     except ClientError as e:
         logging.error(e)
