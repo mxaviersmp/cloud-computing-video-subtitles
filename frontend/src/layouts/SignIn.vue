@@ -60,10 +60,10 @@ export default {
   },
   methods: {
     async login () {
-      const { email, password } = this.user
+      const { username, password } = this.user
       try {
         this.loading = true
-        await authService.signIn({ email, password })
+        await authService.signIn({ username, password })
         this.$router.push('home')
       } catch (err) {
         this.$q.notify({
