@@ -50,7 +50,8 @@ module.exports = function (/* ctx */) {
         COGNITO_USER_POOL_ID: process.env.COGNITO_USER_POOL_ID,
         COGNITO_WEB_CLIENT_ID: process.env.COGNITO_WEB_CLIENT_ID,
         COGNITO_POOL_DOMAIN: process.env.COGNITO_POOL_DOMAIN,
-        COGNITO_POOL_REDIRECT_URL: process.env.COGNITO_POOL_REDIRECT_URL
+        COGNITO_POOL_REDIRECT_URL: process.env.COGNITO_POOL_REDIRECT_URL,
+        API_BASE_URL: process.env.API_BASE_URL
       },
 
       // transpile: false,
