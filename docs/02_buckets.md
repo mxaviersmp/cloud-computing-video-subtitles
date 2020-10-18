@@ -6,6 +6,7 @@ The project uses 3 buckets.
 
 * This bucket will store the uploaded and captioned videos.
 * Create the folders: `original`, `info` and `captioned`.
+* In `Permissions -> Block Public Access`, leave only the first 2 options selected.
 * Paste the following `policy`on the `Permissions -> Bucket Policy` to allow the captioned videos to be downloaded by the users.
     ```json
     {
