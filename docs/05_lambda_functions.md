@@ -3,7 +3,7 @@
 These are the lambda functions responsible for generating the `Transcribe` and `Translate`
 files and saving information on `DynamoDB`.
 
-Each function needs specific `IAM` role permissions.
+Each function needs specific `IAM` role permissions. All of these roles need to be configured for the Lambda service.
 All 4 need `AWSLambdaExecute`, and use the `Python 3.8 Runtime`.
 For each lambda set the necessary `Environment Variables`.
 
