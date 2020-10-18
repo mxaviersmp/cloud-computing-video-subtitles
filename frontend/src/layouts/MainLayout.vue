@@ -9,7 +9,7 @@
           icon="menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-        <q-toolbar-title>Video Subtitles</q-toolbar-title>
+        <q-toolbar-title>legendas Zebarão</q-toolbar-title>
         <q-btn flat dense round icon="logout" />
       </q-toolbar>
     </q-header>

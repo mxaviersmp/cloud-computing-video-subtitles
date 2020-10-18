@@ -9,14 +9,13 @@
           icon="menu"
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
-        <q-toolbar-title>Video Subtitles</q-toolbar-title>
+        <q-toolbar-title>Bem-vindo {{user.name}}</q-toolbar-title>
         <q-btn flat dense round icon="logout" @click="signOut"/>
       </q-toolbar>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
-      show-if-above
       bordered
       :width="250"
       content-class="bg-grey-1"
@@ -49,10 +48,6 @@ const menuList = [
   {
     icon: 'home',
     label: 'Início'
-  },
-  {
-    icon: 'info',
-    label: 'Sobre'
   }
 ]
 
@@ -64,7 +59,8 @@ export default {
     return {
       leftDrawerOpen: false,
       menuLinks: menuList,
-      activeIndex: 0
+      activeIndex: 0,
+      user: {}
     }
   },
   methods: {
@@ -74,6 +70,7 @@ export default {
     async signOut () {
       try {
         await authService.signOut()
+        this.$router.push('/')
       } catch (err) {
         console.log(err)
         this.$q.notify({
@@ -82,6 +79,10 @@ export default {
         })
       }
     }
+  },
+  async created () {
+    const { attributes: data } = await authService.getCurrentUser()
+    this.user = data
   }
 }
 </script>

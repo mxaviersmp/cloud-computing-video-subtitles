@@ -1,6 +1,6 @@
-# videoSubtitles
+# legendas Zebarão
 
-cloud-computing-videos-subtitle
+legendas Zebarão
 
 ## Install the dependencies
 ```bash

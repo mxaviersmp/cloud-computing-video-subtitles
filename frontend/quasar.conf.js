@@ -19,7 +19,8 @@ module.exports = function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
-      'axios'
+      'axios',
+      'aws-amplify'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -44,6 +45,14 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
+      env: {
+        COGNITO_REGION: process.env.COGNITO_REGION || 'us-east-1',
+        COGNITO_USER_POOL_ID: process.env.COGNITO_USER_POOL_ID,
+        COGNITO_WEB_CLIENT_ID: process.env.COGNITO_WEB_CLIENT_ID,
+        COGNITO_POOL_DOMAIN: process.env.COGNITO_POOL_DOMAIN,
+        COGNITO_POOL_REDIRECT_URL: process.env.COGNITO_POOL_REDIRECT_URL,
+        API_BASE_URL: process.env.API_BASE_URL
+      },
 
       // transpile: false,
 
@@ -124,8 +133,8 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'videoSubtitles',
-        short_name: 'videoSubtitles',
+        name: 'legendasTubarao',
+        short_name: 'legendasTubarao',
         description: 'cloud-computing-videos-subtitle',
         display: 'standalone',
         orientation: 'portrait',
@@ -191,7 +200,7 @@ module.exports = function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'videoSubtitles'
+        appId: 'legendasTubarao'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

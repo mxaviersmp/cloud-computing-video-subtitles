@@ -5,15 +5,16 @@ from s3_functions import upload_file
 from dynamo_functions import save_item, get_items, retrieve_all_items
 import json
 
+from dotenv import load_dotenv
+load_dotenv()
+
 app = Flask(__name__)
 CORS(app)
 
-# VIDEOS_BUCKET = os.environ.get('VIDEOS_BUCKET')
-# VIDEOS_TABLE = os.environ.get('VIDEOS_TABLE')
+VIDEOS_BUCKET = os.environ.get('VIDEOS_BUCKET')
+VIDEOS_TABLE = os.environ.get('VIDEOS_TABLE')
 FLASK_HOST = os.environ.get('FLASK_HOST')
 FLASK_PORT = os.environ.get('FLASK_PORT')
-VIDEOS_BUCKET = 'videos-bucket-412485234476'
-VIDEOS_TABLE = 'videos-table'
 
 
 @app.route('/send', methods=['POST'])
@@ -28,7 +29,8 @@ def send_videos():
     -------
     {
         "user_id": <id of the user>,
-        "file_path": <path to the file>
+        "file_name": <name of file>
+        "file": <the real video file>
     }
 
     Response
@@ -37,16 +39,19 @@ def send_videos():
         "status": 200
     }
     """
-    user_id = request.json.get('user_id')
-    file_path = request.json.get('file_path')
-    _, video_name = os.path.split(file_path)
-
-    video_id = upload_file(user_id, file_path, VIDEOS_BUCKET, 'original')
+    
+    user_id = request.form.get('user_id')
+    user_email = request.form.get('user_email')
+    file_name = request.form.get('file_name')
+    file_video = request.files.get('file')
+    
+    video_id = upload_file(user_id, file_name, file_video, VIDEOS_BUCKET, 'original')
     video_info = {
         "video_id": {"S": video_id},
         "user_id": {"S": user_id},
-        "video_name": {"S": video_name},
-        "finished": {"BOOL": False}
+        "user_email": {"S": user_email},
+        "video_name": {"S": file_name},
+        "finished": {"BOOL": False},
     }
     save_item(
         VIDEOS_TABLE, video_info,
@@ -67,7 +72,7 @@ def list_videos():
     Request
     -------
     {
-        "user_id": <id of the user>
+        /list?id=user_id <id of the user>
     }
 
     Response
@@ -80,11 +85,12 @@ def list_videos():
             "duration": float,
             "transcription_words": float,
             "translation_words": float,
+            "video_uri": str,
         },
         ...
     ]
     """
-    user_id = request.json.get('user_id')
+    user_id = request.args.get('id')
     items = get_items(VIDEOS_TABLE, 'user_id', user_id)
     videos = []
     if items:

@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <div class="container">
       <q-card>
-        <img class="avatar" src="user-img.png" />
+        <img class="avatar" src="tubarao.jpg" />
         <q-card-section>
           <q-form class="q-gutter-md q-pa-sm" @submit="login">
             <q-input
@@ -60,10 +60,10 @@ export default {
   },
   methods: {
     async login () {
-      const { email, password } = this.user
+      const { username, password } = this.user
       try {
         this.loading = true
-        await authService.signIn({ email, password })
+        await authService.signIn({ username, password })
         this.$router.push('home')
       } catch (err) {
         this.$q.notify({

@@ -1,20 +1,8 @@
 // import api from './api'
-import Amplify, { Auth } from 'aws-amplify'
-
-Amplify.configure({
-  aws_cognito_region: process.env.region,
-  aws_user_pools_id: process.env.POOL_ID,
-  aws_user_pools_web_client_id: process.env.CLIENT_ID
-})
-
-const getSession = async () => {
-  const session = await JSON.parse(localStorage.getItem('session'))
-  return session
-}
+import { Auth } from 'aws-amplify'
 
 const getCurrentUser = async () => {
-  const session = await getSession()
-  return session.user
+  return await Auth.currentUserInfo()
 }
 
 const signIn = async (userInfo) => {
@@ -55,7 +43,6 @@ const signUp = async (userInfo) => {
 }
 
 export default {
-  getSession,
   getCurrentUser,
   signIn,
   signOut,
