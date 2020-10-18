@@ -65,20 +65,10 @@ def lambda_handler(event, context):
             ReturnValues='ALL_NEW'
         )['Attributes']
 
-        user_id = updated_video['user_id']
-
-        user = dynamo.get_item(
-            TableName=USERS_TABLE,
-            Key={
-                "user_id": {'S': user_id}
-            }
-        )['Item']
-
         video_name = updated_video['video_name']['S']
-        to_email = user['email']['S']
-        username = user['username']['S']
-        message = 'Hi {}, the video {} has been translated!'.format(
-            username, video_name
+        to_email = updated_video['email']['S']
+        message = 'Hi, the video {} has been translated!'.format(
+            video_name
         )
 
         try:

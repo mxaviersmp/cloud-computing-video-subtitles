@@ -29,6 +29,7 @@ def send_videos():
     -------
     {
         "user_id": <id of the user>,
+        "user_email": <email of the user>,
         "file_name": <name of file>
         "file": <the real video file>
     }
