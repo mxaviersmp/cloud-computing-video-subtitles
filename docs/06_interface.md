@@ -14,9 +14,7 @@ In `frontend` folder run `npm install` or `yarn` or to install all dependencies.
 
 To initialize the application run `quasar dev`
 
-**Atention**
-
-The `.env` file must to be configurated and placed at root of `frontend` folder. Should be like this:
+**__Attention__**: The `.env` file must to be configured and placed at root of `frontend` folder. Should be like this:
 
 ```txt
 COGNITO_USER_POOL_ID=
