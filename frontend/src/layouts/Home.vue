@@ -16,7 +16,6 @@
 
     <q-drawer
       v-model="leftDrawerOpen"
-      show-if-above
       bordered
       :width="250"
       content-class="bg-grey-1"
@@ -49,10 +48,6 @@ const menuList = [
   {
     icon: 'home',
     label: 'Início'
-  },
-  {
-    icon: 'info',
-    label: 'Sobre'
   }
 ]
 
