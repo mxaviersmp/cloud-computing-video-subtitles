@@ -3,7 +3,8 @@
 These are the instructions to setup the user interface.
 
 First install `quasar-cli`
-```
+
+```txt
 $ yarn global add @quasar/cli
 # or
 $ npm install -g @quasar/cli
@@ -11,13 +12,13 @@ $ npm install -g @quasar/cli
 
 In `frontend` folder run `npm install` or `yarn` or to install all dependencies.
 
-To initalize aplication run `quasar dev`
+To initialize the application run `quasar dev`
 
 **Atention**
 
-The `.env` file must to be configurated and placed at root of `frontend` folder. Shoud be like this:
+The `.env` file must to be configurated and placed at root of `frontend` folder. Should be like this:
 
-```
+```txt
 COGNITO_USER_POOL_ID=
 COGNITO_WEB_CLIENT_ID=
 COGNITO_POOL_DOMAIN=

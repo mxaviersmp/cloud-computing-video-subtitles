@@ -6,6 +6,9 @@ import multiprocessing
 import boto3
 from VideoSubtitle import *
 
+from dotenv import load_dotenv
+load_dotenv()
+
 s3_client = boto3.client('s3')
 
 API_FLASK_HOST = os.environ.get('API_FLASK_HOST')

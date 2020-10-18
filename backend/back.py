@@ -39,12 +39,12 @@ def send_videos():
         "status": 200
     }
     """
-    
+
     user_id = request.form.get('user_id')
     user_email = request.form.get('user_email')
     file_name = request.form.get('file_name')
     file_video = request.files.get('file')
-    
+
     video_id = upload_file(user_id, file_name, file_video, VIDEOS_BUCKET, 'original')
     video_info = {
         "video_id": {"S": video_id},
