@@ -29,7 +29,7 @@ def send_videos():
     -------
     {
         "user_id": <id of the user>,
-        "file_path": <path to the file>
+        "file_name": <name of file>
         "file": <the real video file>
     }
 
@@ -41,16 +41,17 @@ def send_videos():
     """
     
     user_id = request.form.get('user_id')
-    file_path = request.form.get('file_path')
+    user_email = request.form.get('user_email')
+    file_name = request.form.get('file_name')
     file_video = request.files.get('file')
-    _, video_name = os.path.split(file_path)
-
-    video_id = upload_file(user_id, file_path, file_video, VIDEOS_BUCKET, 'original')
+    
+    video_id = upload_file(user_id, file_name, file_video, VIDEOS_BUCKET, 'original')
     video_info = {
         "video_id": {"S": video_id},
         "user_id": {"S": user_id},
-        "video_name": {"S": video_name},
-        "finished": {"BOOL": False}
+        "user_email": {"S": user_email},
+        "video_name": {"S": file_name},
+        "finished": {"BOOL": False},
     }
     save_item(
         VIDEOS_TABLE, video_info,
@@ -71,7 +72,7 @@ def list_videos():
     Request
     -------
     {
-        "user_id": <id of the user>
+        /list?id=user_id <id of the user>
     }
 
     Response
@@ -84,11 +85,12 @@ def list_videos():
             "duration": float,
             "transcription_words": float,
             "translation_words": float,
+            "video_uri": str,
         },
         ...
     ]
     """
-    user_id = request.json.get('user_id')
+    user_id = request.args.get('id')
     items = get_items(VIDEOS_TABLE, 'user_id', user_id)
     videos = []
     if items:

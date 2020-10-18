@@ -5,15 +5,15 @@ import time
 from botocore.exceptions import ClientError
 
 
-def upload_file(user_id, file_path, file_video, bucket, prefix=None):
+def upload_file(user_id, file_name, file_video, bucket, prefix=None):
     """Uploads a file to s3, generating a unique id for the file
 
     Parameters
     ----------
     user_id : str
         id of the user uploading the file
-    file_path : str
-        path to the file
+    file_name : str
+        name of file
     bucket : str
         name of the bucket
     prefix : str, optional
@@ -27,7 +27,7 @@ def upload_file(user_id, file_path, file_video, bucket, prefix=None):
     if prefix is None:
         prefix = ''
     file_id = hashlib.sha1(
-        str.encode(user_id + file_path + str(time.time()))
+        str.encode(user_id + file_name + str(time.time()))
     ).hexdigest()
     bucket_filename = '{}/{}.mp4'.format(prefix, file_id)
 
