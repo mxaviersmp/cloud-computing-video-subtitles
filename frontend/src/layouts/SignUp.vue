@@ -33,7 +33,7 @@
               label="Confirmar senha"
               lazy-rules
               :rules="[
-                (val) => (val && val > 0) || 'Campo em branco',
+                (val) => (val && val.length > 0) || 'Campo em branco',
                 (val) => val === user.password || 'As senhas não correspondem',
               ]"
             />
