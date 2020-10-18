@@ -27,7 +27,7 @@ This `Security Group` is configured to allow access only from the `<lambda-capti
   * Port range: 8080
   * Source: `<lambda-caption-sg>`
 
-## fontnend-sg
+## frontend-sg
 
 This `Security Group` is created allow `HTTP` access from any address.
 
