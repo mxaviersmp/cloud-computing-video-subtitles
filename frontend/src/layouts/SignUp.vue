@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <div class="container">
       <q-card>
-        <img class="avatar" src="user-img.png" />
+        <img class="avatar" src="tubarao.jpg" />
         <q-card-section>
           <q-form @submit="cadastrar" class="q-gutter-md q-pa-sm">
             <q-input

@@ -133,8 +133,8 @@ module.exports = function (/* ctx */) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'legendasZebarao',
-        short_name: 'legendasZebarao',
+        name: 'legendasTubarao',
+        short_name: 'legendasTubarao',
         description: 'cloud-computing-videos-subtitle',
         display: 'standalone',
         orientation: 'portrait',
@@ -200,7 +200,7 @@ module.exports = function (/* ctx */) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'legendasZebarao'
+        appId: 'legendasTubarao'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
