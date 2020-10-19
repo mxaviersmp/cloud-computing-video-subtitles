@@ -27,7 +27,7 @@
     >
        <template v-slot:body-cell-download="props">
         <q-td :props="props">
-          <q-btn :disable="!props.value" type="a" href="props.value" round color="secondary" icon="cloud_download" />
+          <q-btn :disable="!props.value" type="a" :href="props.value" round color="secondary" icon="cloud_download" />
         </q-td>
       </template>
     </q-table>
@@ -57,7 +57,7 @@ export default {
           label: 'Duração',
           field: 'duration',
           sortable: true,
-          format: (val) => val && `${val} min`
+          format: (val) => val && val >= 60 ? `${val / 60} min` : `${val} s`
         },
         { label: 'Palavras transcritas', field: 'transcription_words', sortable: true },
         { label: 'Palavras traduzidas', field: 'translation_words', sortable: true },
