@@ -6,6 +6,7 @@ VIDEO_BUCKET = os.environ.get('VIDEO_BUCKET')
 TRANSLATE_BUCKET = os.environ.get('TRANSLATE_BUCKET')
 CAPTION_API = os.environ.get('CAPTION_API')
 
+
 def lambda_handler(event, context):
 
     response = {

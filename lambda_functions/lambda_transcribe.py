@@ -2,8 +2,8 @@ import json
 import os
 import boto3
 
-
 TRANSCRIBE_BUCKET = os.environ.get('TRANSCRIBE_BUCKET')
+
 
 def create_uri(bucket_name, file_name):
     return 's3://{}/{}'.format(bucket_name, file_name)

@@ -15,3 +15,8 @@ The `CaptionAPI` performs the union of the video with it's captions.
   * Choose the `<project-key-pair>`
 
 If you didn't setup the `User Data`, login to the machine, and follow the steps on the [installation script](../caption_api/ec2_user_data_amazonlinux.sh).
+
+## Env variables
+
+* API_FLASK_HOST: Address of process in machine, can set as `0.0.0.0`
+* API_FLASK_PORT: Port to run the process, set as `8080`

@@ -3,7 +3,6 @@ import os
 import boto3
 
 VIDEOS_TABLE = os.environ.get('VIDEOS_TABLE')
-USERS_TABLE = os.environ.get('USERS_TABLE')
 SOURCE_EMAIL = os.environ.get('SOURCE_EMAIL')
 
 
@@ -65,7 +64,7 @@ def lambda_handler(event, context):
         )['Attributes']
 
         video_name = updated_video['video_name']['S']
-        to_email = updated_video['email']['S']
+        to_email = updated_video['user_email']['S']
         message = 'Hi, the video {} has been translated!'.format(
             video_name
         )
