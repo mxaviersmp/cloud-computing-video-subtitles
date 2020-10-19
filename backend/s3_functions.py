@@ -2,7 +2,6 @@ import logging
 import boto3
 import hashlib
 import time
-from botocore.exceptions import ClientError
 
 
 def upload_file(user_id, file_name, file_video, bucket, prefix=None):
@@ -31,10 +30,10 @@ def upload_file(user_id, file_name, file_video, bucket, prefix=None):
     ).hexdigest()
     bucket_filename = '{}/{}.mp4'.format(prefix, file_id)
 
-    s3_client = boto3.client('s3')
+    s3_client = boto3.client('s3', region_name='us-east-1')
     try:
         s3_client.upload_fileobj(file_video, bucket, bucket_filename)
         return file_id
-    except ClientError as e:
+    except s3_client.exceptions.ClientError as e:
         logging.error(e)
         return False

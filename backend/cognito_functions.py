@@ -1,7 +1,7 @@
 import boto3
-from botocore.errorfactory import UserNotFoundException
 
-cognito = boto3.client('cognito-idp', region='us-east-1')
+
+cognito = boto3.client('cognito-idp', region_name='us-east-1')
 
 def verify_user(user_pool, user_id):
     try:
@@ -10,6 +10,6 @@ def verify_user(user_pool, user_id):
             Username=user_id
         )
         return True
-    except UserNotFoundException:
+    except cognito.exceptions.UserNotFoundException:
         return False
 
