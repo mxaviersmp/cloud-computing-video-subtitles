@@ -57,7 +57,7 @@ export default {
           label: 'Duração',
           field: 'duration',
           sortable: true,
-          format: (val) => val && val >= 60 ? `${val / 60} min` : `${val} s`
+          format: (val) => this.formatTime(val)
         },
         { label: 'Palavras transcritas', field: 'transcription_words', sortable: true },
         { label: 'Palavras traduzidas', field: 'translation_words', sortable: true },
@@ -65,7 +65,7 @@ export default {
           label: 'Status',
           field: 'finished',
           sortable: true,
-          format: (val) => val === true ? 'Finalizado' : 'Em andamento'
+          format: (val) => val === 'True' ? 'Finalizado' : 'Em andamento'
         },
         { label: 'Download', field: 'video_uri', name: 'download' }
       ]
@@ -80,6 +80,10 @@ export default {
         type: 'negative',
         message: 'Tipo de arquivo inválido'
       })
+    },
+    formatTime (duration) {
+      if (duration) { return duration >= 60 ? `${duration / 60} min` : `${duration} s` }
+      return ''
     },
     async uploadVideo (files) {
       try {
