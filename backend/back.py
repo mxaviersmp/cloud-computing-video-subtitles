@@ -2,7 +2,8 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 from s3_functions import upload_file
-from dynamo_functions import save_item, get_items, retrieve_all_items
+from dynamo_functions import save_item, get_items
+from cognito_functions import verify_user
 import json
 
 from dotenv import load_dotenv
@@ -15,6 +16,7 @@ VIDEOS_BUCKET = os.environ.get('VIDEOS_BUCKET')
 VIDEOS_TABLE = os.environ.get('VIDEOS_TABLE')
 FLASK_HOST = os.environ.get('FLASK_HOST')
 FLASK_PORT = os.environ.get('FLASK_PORT')
+USER_POOL_ID = os.environ.get('USER_POOL_ID')
 
 
 @app.route('/send', methods=['POST'])
@@ -46,6 +48,9 @@ def send_videos():
     file_name = request.form.get('file_name')
     file_video = request.files.get('file')
 
+    if not verify_user(USER_POOL_ID, user_id):
+        return jsonify("UserNotFound"), 401
+
     video_id = upload_file(user_id, file_name, file_video, VIDEOS_BUCKET, 'original')
     video_info = {
         "video_id": {"S": video_id},
@@ -59,7 +64,7 @@ def send_videos():
         'video_id', {'S': video_info['video_id']['S']}
     )
 
-    return json.dumps({'statusCode': 200})
+    return jsonify("Job started!"), 200
 
 
 @app.route('/list', methods=['GET'])
@@ -92,6 +97,10 @@ def list_videos():
     ]
     """
     user_id = request.args.get('id')
+
+    if not verify_user(USER_POOL_ID, user_id):
+        return jsonify("UserNotFound"), 401
+
     items = get_items(VIDEOS_TABLE, 'user_id', user_id)
     videos = []
     if items:
@@ -100,44 +109,7 @@ def list_videos():
             for k, v in d.items():
                 info[k] = str(v)
             videos.append(info)
-    return json.dumps(videos)
-
-
-@app.route('/statistics', methods=['GET'])
-def get_statistics():
-    """Returns all videos
-
-    Methods
-    -------
-    GET
-
-    Request
-    -------
-    { }
-
-    Response
-    -------
-    [
-        {
-            "video_id": str,
-            "video_name": str,
-            "finished": bool,
-            "duration": float,
-            "transcription_words": float,
-            "translation_words": float,
-        },
-        ...
-    ]
-    """
-    items = retrieve_all_items(VIDEOS_TABLE)
-    videos = []
-    if items:
-        for d in items:
-            info = dict()
-            for k, v in d.items():
-                info[k] = str([*v.values()][0])
-            videos.append(info)
-    return json.dumps(videos)
+    return jsonify(videos), 200
 
 
 @app.route('/', methods=['GET'])

@@ -83,6 +83,10 @@ module.exports = function (/* ctx */) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
+      before (app) {
+          const cors = require('cors')
+          app.use(cors())
+      },
       https: false,
       port: 8080,
       open: true // opens browser window automatically

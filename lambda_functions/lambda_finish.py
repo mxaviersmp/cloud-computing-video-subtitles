@@ -1,4 +1,3 @@
-from backend.back import VIDEOS_BUCKET
 import json
 import os
 import boto3
@@ -28,7 +27,7 @@ def lambda_handler(event, context):
 
         video_id = info['video_id']
         video_key = '/captioned/{}.mp4'.format(video_id)
-        video_uri = create_object_url(VIDEOS_BUCKET, video_key)
+        video_uri = create_object_url(bucket_name, video_key)
 
         video = dynamo.query(
             TableName=VIDEOS_TABLE,

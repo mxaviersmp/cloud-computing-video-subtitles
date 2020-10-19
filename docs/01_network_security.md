@@ -9,7 +9,7 @@ Create a new `key-pair` for the project.
 ## IAM
 
 * caption-api-role: Create an `IAM Role` for `EC2` with `AmazonS3FullAccess`
-* backend: Create an `IAM Role` for `EC2` with `AmazonS3FullAccess`
+* backend: Create an `IAM Role` for `EC2` with `AmazonS3FullAccess` and `AmazonCognitoReadOnly`
 
 ## lambda-caption-sg
 
@@ -42,7 +42,7 @@ This `Security Group` is configured to allow access only from the `<frontend-sg>
 * For `Inbound Rules`, choose:
   * Type: Custom TCP
   * Port range: 8080
-  * Source: `<frontend-sg>`
+  * Source: Anywhere
 
 ## SES
 

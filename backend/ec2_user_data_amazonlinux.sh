@@ -8,6 +8,6 @@ sudo yum install python3 -y
 sudo python3 -m pip install -r requirements.txt
 export FLASK_HOST=0.0.0.0
 export FLASK_PORT=8080
-export VIDEOS_BUCKET=
-export VIDEOS_TABLE=
+export VIDEOS_BUCKET=videos-bucket-412485234476
+export VIDEOS_TABLE=videos-table
 python3 back.py
